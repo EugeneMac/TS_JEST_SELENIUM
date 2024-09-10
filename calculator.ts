@@ -15,6 +15,11 @@ export abstract class Calculator implements BasePage {
         return this;
     }
 
+    async clear() {
+        await BasePage.driver.findElement(By.xpath(selectors.clearButton)).click();
+        return this;
+    }
+
     async equals() {
         await BasePage.driver.findElement(By.xpath(selectors.equalsButton)).click();
         return this;
@@ -22,6 +27,26 @@ export abstract class Calculator implements BasePage {
 
     async plus() {
         await BasePage.driver.findElement(By.xpath(selectors.plusButton)).click();
+        return this;
+    }
+
+    async minus() {
+        await BasePage.driver.findElement(By.xpath(selectors.minusButton)).click();
+        return this;
+    }
+
+    async multiply() {
+        await BasePage.driver.findElement(By.xpath(selectors.multButton)).click();
+        return this;
+    }
+
+    async divide() {
+        await BasePage.driver.findElement(By.xpath(selectors.divButton)).click();
+        return this;
+    }
+
+    async sign() {
+        await BasePage.driver.findElement(By.xpath(selectors.signButton)).click();
         return this;
     }
 
