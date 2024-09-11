@@ -2,6 +2,7 @@ import { By, until } from "selenium-webdriver";
 import { BasePage } from "./base_page";
 const Selectors = require("./selectors");
 const selectors = new Selectors();
+
 export abstract class Calculator implements BasePage {
 
     async consent() {
@@ -10,6 +11,14 @@ export abstract class Calculator implements BasePage {
 
     async enterNumber(number: string) {
         for (const chr of number.split("")) {
+            if (chr == "-") {
+                await this.sign();
+                continue;
+            };
+            if (chr == ".") {
+                await this.dot();
+                continue;
+            };
             await BasePage.driver.findElement(By.id("Btn" + chr)).click();
         }
         return this;
@@ -47,6 +56,11 @@ export abstract class Calculator implements BasePage {
 
     async sign() {
         await BasePage.driver.findElement(By.xpath(selectors.signButton)).click();
+        return this;
+    }
+
+    async dot() {
+        await BasePage.driver.findElement(By.xpath(selectors.dotButton)).click();
         return this;
     }
 

@@ -18,20 +18,22 @@ describe("Web Calculator UI-based tests", () => {
     await calculator.clear();
   });
 
-  it("Should calculate addition", async () => {
-    await calculator.enterNumber("123");
+  it.each([["123", "456", "579"], ["120", "-100", "20"], ["25.501", "5.0013", "30.5023"]])
+  ("Should calculate addition: %s + %s = %s", async (a, b, expected) => {
+    await calculator.enterNumber(a);
     await calculator.plus();
-    await calculator.enterNumber("456");
+    await calculator.enterNumber(b);
     await calculator.equals();
-    expect(await calculator.checkResult("579")).toBeTruthy();
+    expect(await calculator.checkResult(expected)).toBeTruthy();
   });
 
-  it("Should calculate subtraction", async () => {
-    await calculator.enterNumber("456");
+  it.each([["456", "123", "333"], ["0.000013", "1.01", "-1.009987"]])
+  ("Should calculate subtraction: %s - %s = %s", async (a, b, expected) => {
+    await calculator.enterNumber(a);
     await calculator.minus();
-    await calculator.enterNumber("123");
+    await calculator.enterNumber(b);
     await calculator.equals();
-    expect(await calculator.checkResult("333")).toBeTruthy();
+    expect(await calculator.checkResult(expected)).toBeTruthy();
   });
 
   it("Should calculate multiplication", async () => {
@@ -50,13 +52,22 @@ describe("Web Calculator UI-based tests", () => {
     expect(await calculator.checkResult("22.2")).toBeTruthy();
   });
 
-  it("Should calculate subtraction with negative numbers", async () => {
-    await calculator.enterNumber("456");
+  it.each([["456", "123", "-579"], ["0.0012", "0.3", "-0.3012"]])
+  ("Should calculate subtraction with negative numbers: -%s - %s = %s", async (a, b, expected) => {
+    await calculator.enterNumber(a);
     await calculator.sign();
     await calculator.minus();
-    await calculator.enterNumber("123");
+    await calculator.enterNumber(b);
     await calculator.equals();
-    expect(await calculator.checkResult("-579")).toBeTruthy();
+    expect(await calculator.checkResult(expected)).toBeTruthy();
+  });
+
+  it("Should show error on 0 division", async () => {
+    await calculator.enterNumber("123456");
+    await calculator.divide();
+    await calculator.enterNumber("0");
+    await calculator.equals();
+    expect(await calculator.checkResult("Error: DivByZero")).toBeTruthy();
   });
 
 });

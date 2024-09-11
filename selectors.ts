@@ -7,6 +7,7 @@ export abstract class Selectors
     public divButton = "//button[@id='BtnDiv']";
     public equalsButton = "//button[@id='BtnCalc']";
     public signButton = "//button[@id='BtnSign']";
+    public dotButton = "//button[@id='BtnDot']";
     public clearButton = "//button[@id='BtnClear']";
     public resultField = "//input[@id='input']";
 }
